@@ -18,7 +18,8 @@ class EventController extends Controller
      */
     public function index(): View
     {
-        return view('events.index');
+        $events = Event::with('country')->get();
+        return view('events.index', compact('events'));
     }
 
     /**
