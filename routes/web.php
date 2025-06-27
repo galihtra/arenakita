@@ -13,6 +13,7 @@ use App\Http\Controllers\GalleryIndexController;
 use App\Http\Controllers\LikedEventController;
 use App\Http\Controllers\LikeSystemController;
 use App\Http\Controllers\LikeSystmeController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SavedEventController;
 use App\Http\Controllers\SavedEventSystemController;
 use App\Http\Controllers\StoreCommentController;
@@ -40,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/saved-events', SavedEventController::class)->name('savedEvents');
     Route::get('/attendind-events', AttendingEventController::class)->name('attendingEvents');
 
+    Route::get('/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
+
     Route::post(
         '/events-like/{id}',
         LikeSystemController::class
@@ -55,6 +58,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/countries/{country}', function (Country $country) {
         return response()->json($country->cities);
     });
+
+    Route::get('/permission/create',[PermissionController::class,'create'])->name('permission.create');
+    Route::post('/permission',[PermissionController::class,'store'])->name('permission.store');
 });
 
 require __DIR__.'/auth.php';
