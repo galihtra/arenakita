@@ -30,6 +30,9 @@
                     <x-nav-link :href="route('attendingEvents')" :active="request()->routeIs('attendingEvents')">
                         {{ __('Attending Events') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permission.index')">
+                        {{ __('Permissions') }}
+                    </x-nav-link>
                 </div>
             </div>
 

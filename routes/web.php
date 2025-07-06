@@ -59,8 +59,12 @@ Route::middleware('auth')->group(function () {
         return response()->json($country->cities);
     });
 
-    Route::get('/permission/create',[PermissionController::class,'create'])->name('permission.create');
-    Route::post('/permission',[PermissionController::class,'store'])->name('permission.store');
+    Route::get('/permissions',[PermissionController::class,'index'])->name('permission.index');
+    Route::get('/permissions/create',[PermissionController::class,'create'])->name('permission.create');
+    Route::post('/permissions',[PermissionController::class,'store'])->name('permission.store');
+    Route::get('/permissions/{id}/edit',[PermissionController::class,'edit'])->name('permission.edit');
+    Route::post('/permissions/{id}',[PermissionController::class,'update'])->name('permission.update');
+    Route::delete('/permissions',[PermissionController::class,'destroy'])->name('permission.destroy');
 });
 
 require __DIR__.'/auth.php';
