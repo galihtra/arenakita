@@ -14,6 +14,7 @@ use App\Http\Controllers\LikedEventController;
 use App\Http\Controllers\LikeSystemController;
 use App\Http\Controllers\LikeSystmeController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SavedEventController;
 use App\Http\Controllers\SavedEventSystemController;
 use App\Http\Controllers\StoreCommentController;
@@ -59,12 +60,19 @@ Route::middleware('auth')->group(function () {
         return response()->json($country->cities);
     });
 
+    // permissions routes
     Route::get('/permissions',[PermissionController::class,'index'])->name('permission.index');
     Route::get('/permissions/create',[PermissionController::class,'create'])->name('permission.create');
     Route::post('/permissions',[PermissionController::class,'store'])->name('permission.store');
     Route::get('/permissions/{id}/edit',[PermissionController::class,'edit'])->name('permission.edit');
     Route::post('/permissions/{id}',[PermissionController::class,'update'])->name('permission.update');
     Route::delete('/permissions',[PermissionController::class,'destroy'])->name('permission.destroy');
+
+
+    // roles routes
+    Route::get('/roles',[RoleController::class,'index'])->name('role.index');
+    Route::get('/roles/create',[RoleController::class,'create'])->name('role.create');
+    Route::post('/roles',[RoleController::class,'store'])->name('role.store');
 });
 
 require __DIR__.'/auth.php';
