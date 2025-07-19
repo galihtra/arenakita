@@ -51,5 +51,43 @@ class RoleController extends Controller
         }
     }
 
+    public function edit($id) {
+        $role = Role::findOrFail($id);
+        $hasPermissions = $role->permissions->pluck('name');
+        
+        $permissions = Permission::orderBy('name', 'ASC')->get();
+
+        return view('roles.edit',[
+            'permissions' => $permissions,
+            'hasPermissions' => $hasPermissions,
+            'role' => $role,
+        ]);
+    }
+
+    public function update($id, Request $request) {
+        $role = Role::findOrFail($id);
+
+        $validator = Validator::make($request->all(), [
+
+            'name' => 'required|unique:roles,name,'.$id.',id',
+        ]);
+
+        if ($validator->passes()) {
+            // $role = Role::create(['name' => $request->name]);
+            $role->name = $request->name;
+
+            if (!empty($request->permission)) {
+                foreach ($request->permission as $name) {
+                    $role->givePermissionTo($name);
+                }
+            }
+
+            return redirect()->route('role.index')->with('success', 'Roles added successfully');
+
+        } else {
+            return redirect()->route('role.create')->withInput()->withErrors($validator);
+        }
+    }
+
 
 }

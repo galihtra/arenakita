@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/roles',[RoleController::class,'index'])->name('role.index');
     Route::get('/roles/create',[RoleController::class,'create'])->name('role.create');
     Route::post('/roles',[RoleController::class,'store'])->name('role.store');
+    Route::get('/roles/{id}/edit',[RoleController::class,'edit'])->name('role.edit');
 });
 
 require __DIR__.'/auth.php';
