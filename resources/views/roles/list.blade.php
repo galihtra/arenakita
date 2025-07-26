@@ -47,10 +47,10 @@
                                         class="bg-slate-700 text-sm rounded-md text-white px-3 py-2 
                                         hover:bg-slate-600 mr-2">Edit
                                     </a>
-                                    {{-- <a href="javascript:void(0);" onclick="deletePermission({{ $permission->id }})"
+                                    <a href="javascript:void(0);" onclick="deleteRole({{ $role->id }})"
                                         class="bg-red-600 text-sm rounded-md text-white px-3 py-2 
                                         hover:bg-red-500">Delete
-                                    </a> --}}
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -66,10 +66,10 @@
     </div>
 
    <x-slot name="script">
-    function deletePermission(id) {
+    function deleteRole(id) {
         if (confirm('Are you sure want to delete?')) {
             $.ajax({
-                url: '{{ route('permission.destroy') }}',
+                url: '{{ route('role.destroy') }}',
                 type: 'delete',
                 data: {
                     id: id
@@ -79,7 +79,7 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    window.location.href = '{{ route('permission.index') }}';
+                    window.location.href = '{{ route('role.index') }}';
                 },
                 error: function(xhr) {
                     alert('Gagal menghapus data!');

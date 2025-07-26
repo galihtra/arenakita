@@ -12,7 +12,7 @@ class RoleController extends Controller
     // function untuk menampilkan halaman role 
     public function index()
     {
-        $roles = Role::orderBy('name','ASC')->paginate(10);
+        $roles = Role::orderBy('name', 'ASC')->paginate(10);
         return view('roles.list', [
             'roles' => $roles
         ]);
@@ -51,43 +51,63 @@ class RoleController extends Controller
         }
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $role = Role::findOrFail($id);
         $hasPermissions = $role->permissions->pluck('name');
-        
+
         $permissions = Permission::orderBy('name', 'ASC')->get();
 
-        return view('roles.edit',[
+        return view('roles.edit', [
             'permissions' => $permissions,
             'hasPermissions' => $hasPermissions,
             'role' => $role,
         ]);
     }
 
-    public function update($id, Request $request) {
+    public function update($id, Request $request)
+    {
         $role = Role::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-
-            'name' => 'required|unique:roles,name,'.$id.',id',
+            'name' => 'required|unique:roles,name,' . $id . ',id',
         ]);
 
         if ($validator->passes()) {
-            // $role = Role::create(['name' => $request->name]);
             $role->name = $request->name;
+            $role->save();
 
             if (!empty($request->permission)) {
-                foreach ($request->permission as $name) {
-                    $role->givePermissionTo($name);
-                }
+                $role->syncPermissions($request->permission);
+            } else {
+                $role->syncPermissions([]);
             }
 
-            return redirect()->route('role.index')->with('success', 'Roles added successfully');
+            return redirect()->route('role.index')->with('success', 'Role added successfully');
 
         } else {
-            return redirect()->route('role.create')->withInput()->withErrors($validator);
+            return redirect()->route('role.edit', $id)->withInput()->withErrors($validator);
         }
     }
 
 
+    public function destroy(Request $request)
+    {
+        $id = $request->id;
+        $role = Role::find($id);
+
+        if ($role == null) {
+            session()->flash('error', 'Role not found');
+            return response()->json([
+                'status' => false
+            ]);
+        }
+
+        $role->delete();
+
+        session()->flash('success', 'Role deleted successfully');
+        return response()->json([
+            'status' => true
+        ]);
+    }
 }
