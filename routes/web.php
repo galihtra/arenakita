@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AttendingEventController;
 use App\Http\Controllers\AttendingSystemController;
 use App\Http\Controllers\DeleteCommentController;
@@ -77,6 +78,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/roles/{id}',[RoleController::class,'update'])->name('role.update');
     Route::delete('/roles',[RoleController::class,'destroy'])->name('role.destroy');
 
+    // articles routes
+    Route::get('/articles',[ArticleController::class,'index'])->name('article.index');
+    Route::get('/articles/create',[ArticleController::class,'create'])->name('article.create');
+    Route::post('/articles',[ArticleController::class,'store'])->name('article.store');
 });
 
 require __DIR__.'/auth.php';
