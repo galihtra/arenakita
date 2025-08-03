@@ -82,6 +82,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/articles',[ArticleController::class,'index'])->name('article.index');
     Route::get('/articles/create',[ArticleController::class,'create'])->name('article.create');
     Route::post('/articles',[ArticleController::class,'store'])->name('article.store');
+    Route::get('/articles/{id}/edit',[ArticleController::class,'edit'])->name('article.edit');
+    Route::post('/articles/{id}',[ArticleController::class,'update'])->name('article.update');
+    Route::delete('/articles',[ArticleController::class,'destroy'])->name('article.destroy');
 });
 
 require __DIR__.'/auth.php';

@@ -39,14 +39,14 @@
                                     {{ \Carbon\Carbon::parse($article->created_at)->format('d M, Y') }}
                                 </td>
                                 <td class="px-6 py-3 text-center ">
-                                    {{-- <a href="{{ route('permission.edit', $permission->id) }}"
+                                     <a href="{{ route('article.edit', $article->id) }}"
                                         class="bg-slate-700 text-sm rounded-md text-white px-3 py-2 
                                         hover:bg-slate-600 mr-2">Edit
                                     </a>
-                                    <a href="javascript:void(0);" onclick="deletePermission({{ $permission->id }})"
+                                    <a href="javascript:void(0);" onclick="deleteArticle({{ $article->id }})"
                                         class="bg-red-600 text-sm rounded-md text-white px-3 py-2 
                                         hover:bg-red-500">Delete
-                                    </a> --}}
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -62,10 +62,10 @@
     </div>
 
    <x-slot name="script">
-    function deletePermission(id) {
+    function deleteArticle(id) {
         if (confirm('Are you sure want to delete?')) {
             $.ajax({
-                url: '{{ route('permission.destroy') }}',
+                url: '{{ route('article.destroy') }}',
                 type: 'delete',
                 data: {
                     id: id
@@ -75,7 +75,7 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    window.location.href = '{{ route('permission.index') }}';
+                    window.location.href = '{{ route('article.index') }}';
                 },
                 error: function(xhr) {
                     alert('Gagal menghapus data!');
